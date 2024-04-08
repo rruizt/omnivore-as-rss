@@ -17,7 +17,7 @@ builds:
   - main: ./cmd/omnivore-as-rss/omnivore-as-rss.go
     env:
       - CGO_ENABLED=0
-    binary: omnivore-to-rss
+    binary: omnivore-as-rss
     goos:
       - linux
       - windows
@@ -30,14 +30,14 @@ builds:
 
 dockers:
 - image_templates:
-    - "rruizt/omnivore-to-rss:{{ .Version }}-amd64"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-amd64"
   use: buildx
   dockerfile: build/Dockerfile
   build_flag_templates:
   - "--platform=linux/amd64"
   
 - image_templates:
-    - "rruizt/omnivore-to-rss:{{ .Version }}-armv7"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-armv7"
   use: buildx
   goarch: arm
   goarm: 7
@@ -46,14 +46,14 @@ dockers:
   - "--platform=linux/arm/v7"
 
 docker_manifests:
-- name_template: "rruizt/omnivore-to-rss:{{ .Version }}"
+- name_template: "rruizt/omnivore-as-rss:{{ .Version }}"
   image_templates:
-    - "rruizt/omnivore-to-rss:{{ .Version }}-amd64"
-    - "rruizt/omnivore-to-rss:{{ .Version }}-armv7"
-- name_template: "rruizt/omnivore-to-rss:latest"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-amd64"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-armv7"
+- name_template: "rruizt/omnivore-as-rss:latest"
   image_templates:
-    - "rruizt/omnivore-to-rss:{{ .Version }}-amd64"
-    - "rruizt/omnivore-to-rss:{{ .Version }}-armv7"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-amd64"
+    - "rruizt/omnivore-as-rss:{{ .Version }}-armv7"
 
 
 archives:
