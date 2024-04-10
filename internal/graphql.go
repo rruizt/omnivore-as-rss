@@ -3,7 +3,6 @@ package internal
 import (
 	"context"
 	"net/http"
-	"os"
 	"time"
 	"github.com/hasura/go-graphql-client"
 )
@@ -13,7 +12,7 @@ var client *graphql.Client
 func queryOmnivore() error {
 	if client == nil {
 		client = graphql.NewClient("https://api-prod.omnivore.app/api/graphql", nil).WithRequestModifier(func(r *http.Request) {
-			r.Header.Set("Authorization", os.Getenv("OMNIVORE_AUTH_TOKEN"))
+			r.Header.Set("Authorization", Cfg.OmnivoreAuthToken)
 		})
 	}
 
