@@ -1,3 +1,3 @@
 FROM alpine
-ENTRYPOINT [ "usr/bin/omnivore-to-rss" ]
-COPY omnivore-to-rss /usr/bin/omnivore-to-rss
+ENTRYPOINT [ "usr/bin/omnivore-as-rss" ]
+COPY omnivore-as-rss /usr/bin/omnivore-as-rss
