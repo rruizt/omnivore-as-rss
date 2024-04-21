@@ -24,5 +24,5 @@ func rss(w http.ResponseWriter, req *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/rss+xml")
-	fmt.Fprintf(w, feedString)
+	fmt.Fprint(w, feedString)
 }
