@@ -9,8 +9,9 @@ import (
 
 func Serve() {
 	http.HandleFunc("/rss", rss)
-	log.Println("Starting web server: listening at port 8090")
-	http.ListenAndServe(":8090", nil)
+	localPort := Cfg.LocalPort
+	log.Println("Starting web server: listening at port ", localPort)
+	http.ListenAndServe(":" + localPort, nil)
 }
 
 func rss(w http.ResponseWriter, req *http.Request) {

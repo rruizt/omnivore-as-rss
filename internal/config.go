@@ -12,42 +12,76 @@ var Cfg Config
 
 type Config struct {
 	OmnivoreAuthToken string
+	LocalPort string
 }
 
 func InitConfig() {
-	omnivoreToken , err := getOmnivoreToken()
+	flagMap := extractFlags()
+
+	omnivoreToken , err := getOmnivoreToken(flagMap)
+	localPort := getPort(flagMap)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	c := Config {
 		OmnivoreAuthToken: omnivoreToken,
+		LocalPort: localPort,
 	}
 
 	Cfg = c
 }
 
-func getOmnivoreToken() (string, error) {
-	var omnivoreTokenFlag string
-	var secretFilePathFlag string
+func extractFlags() map[string]string {
+	flagMap := map[string] string {}
 
-	flag.StringVar(&omnivoreTokenFlag, "t", "" , "the Omnivore API token")
-	flag.StringVar(&secretFilePathFlag, "tf", "" , "the path to the file with the Omnivore API Token")
+	var omnivoreToken string
+	var secretFilePath string
+	var port string
 
+	flag.StringVar(&omnivoreToken, "t", "" , "the Omnivore API token")
+	flag.StringVar(&secretFilePath, "tf", "" , "the path to the file with the Omnivore API Token")
+	flag.StringVar(&port, "p", "" , "the port where the service is going to listen")
 	flag.Parse()
+
+	flagMap["t"] = omnivoreToken
+	flagMap["tf"] = secretFilePath
+	flagMap["p"] = port
+
+	return flagMap
+}
+
+func getPort(flagMap map[string] string) string {
+	port := flagMap["p"]
+
+	if port == "" {
+		port = os.Getenv("PORT")
+		if port == "" {
+			port = "8090"
+		}
+	}
+
+	return port
+}
+
+func getOmnivoreToken(flagMap map[string]string) (string, error) {
+
+	omnivoreTokenFlag := flagMap["t"]
 
 	omnivoreToken := os.Getenv("OMNIVORE_AUTH_TOKEN")
 	if omnivoreToken == "" {
 		omnivoreToken = omnivoreTokenFlag
 	}
 
+	secretFilePathFlag := flagMap["tf"]
 	secretFilePath := os.Getenv("OMNIVORE_AUTH_TOKEN_FILEPATH")
 	if secretFilePath == "" {
 		secretFilePath = secretFilePathFlag
 	}
 
 	if omnivoreToken != "" {
-		log.Println("Reading secret from env var")
+		log.Println("Reading secret from env var or flag")
 		return omnivoreToken, nil
 	} else if secretFilePath != "" {
 		log.Println("Reading secret from file")

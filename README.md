@@ -69,6 +69,7 @@ You can configure `omnivore-as-rss` with environment variables or command line f
 | ------------- | ------------- |-----------|
 | OMNIVORE_AUTH_TOKEN / -t  | The API token from Omnivore  | `00000000-0000-0000-0000-000000000000` |
 | OMNIVORE_AUTH_TOKEN_FILEPATH / -tf | The filepath of the file containing the API token from Omnivore | `/run/secrets/omnivore` |
+| PORT / -p | The port where the application is going to listen (defaults to 8090) | `8090` |
 
 
 
